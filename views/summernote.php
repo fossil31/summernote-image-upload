@@ -160,11 +160,39 @@ $(function() {
 	$(".datepicker").datepicker({
 		dateFormat: 'yy-mm-dd'
 	});
+    $("#sortable1").sortable({
+		handle: ".handle",
+		placeholder: "ui-state-highlight",
+		stop: function (event, ui) {
+			let order = $(this).sortable('toArray', {attribute: 'data-value'});
+			$('#sortable-result').append('<p class="result-sortable">' + order + '</p>');
+			console.log(order);
+		}
+	});
+    $(".sortable").disableSelection();
+    $("#sortable2").sortable({
+		placeholder: "ui-state-highlight",
+		stop: function (event, ui) {
+			let order = $(this).sortable('toArray', {attribute: 'value'});
+			$('#sortable-result').append('<p class="result-sortable">' + order + '</p>');
+		}
+	});
 	$('form').on('reset', function(e){
 		var validator = $("#validation").validate();
 		validator.resetForm();
 		$('#validation_errors').html('');
 		$('#ref_id').focus();
+		$('.summernote').summernote('reset');
+	});
+	$('#clear-sortable-logs').on('click', function(){
+		$('#sortable-result').html('');
+	});
+	setTimeout(function(){ 
+		$('#flash-message p').slideUp(); 
+	}, 5000);
+	$('#checkbox-slim, #jFiler-slim').slimscroll({
+		railVisible: true,
+		railBorderRadius: 0
 	});
 	$('.tags').tagsinput({ tagClass: 'label label-primary', trimValue: true });
 	$("#validation").validate({
@@ -202,10 +230,11 @@ $(function() {
 			cache: false,
 			contentType: false,
 			processData: false,
+			dataType: 'json',
+			async: false,
 			success: function(res) {
-				let obj = JSON.parse(res);
-				if (obj.status == 1) {
-					editor.summernote('insertImage', obj.image);
+				if (res.status == 1) {
+					editor.summernote('insertImage', res.image);
 				} else {
 					alert('Upload รูปภาพไม่ผ่าน::');
 				}
@@ -214,8 +243,8 @@ $(function() {
 	}
 
 	$('.summernote').summernote({
-		height: 300,
 		placeholder: 'รายละเอียด...',
+		disableResizeEditor: false,
 		toolbar: [
 			['style', ['style']],
 			['font', ['fontname', 'fontsize', 'fontsizeunit', 'backcolor', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
@@ -226,13 +255,13 @@ $(function() {
 			['misc', ['fullscreen', 'codeview']],
 		],		
 		callbacks: {
-      onChange: function(contents, $editable) {
+            onChange: function(contents, $editable) {
 				$(this).valid();
 			},
 			onImageUpload: function(files) {
 				sendFile(files[0], $(this));
 			},
-      onMediaDelete: function(target) {
+            onMediaDelete: function(target) {
 				$.ajax({
 					type: 'post', 
 					url: "<?php echo base_url('welcome/summernote_delete_image/?time=');?>" + new Date().getTime(),
@@ -251,7 +280,7 @@ $(function() {
 				}).fail(function (jqXHR, textStatus, error) {
 					swal("Ajax Error", jqXHR.responseText, "error");
 				});
-      }
+            }
 		}
 	});
 
