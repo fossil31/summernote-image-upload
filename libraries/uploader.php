@@ -50,25 +50,25 @@ class Uploader {
   );
 
   public function __construct()
-	{       
+  {       
     $this->cache_data = $this->data;
   }
     
 
-    public function upload($field, $options = null)
-	{
-        $this->data = $this->cache_data;
-        return $this->initialize($field, $options);
-    }
+  public function upload($field, $options = null)
+  {
+    $this->data = $this->cache_data;
+    return $this->initialize($field, $options);
+  }
     
 
-    private function initialize($field, $options)
-	{
-		if (is_array($field) && in_array($field, $_FILES))
-		{
-			$this->field = $field;
-            $this->field['Field_Name'] = array_search($field, $_FILES);
-            $this->field['Field_Type'] = 'input';
+  private function initialize($field, $options)
+  {
+    if (is_array($field) && in_array($field, $_FILES))
+    {
+      $this->field = $field;
+      $this->field['Field_Name'] = array_search($field, $_FILES);
+      $this->field['Field_Type'] = 'input';
             if ( ! is_array($this->field['name']))
 			{
 				$this->field = array_merge($this->field, array("name" => array($this->field['name']), "tmp_name"=>array($this->field['tmp_name']), "type"=>array($this->field['type']), "error"=>array($this->field['error']), "size"=>array($this->field['size'])));
@@ -455,8 +455,8 @@ class Uploader {
 	}
     
   private function _onRemove()
-	{
-		$arguments = func_get_args();
-		return $this->options['onRemove'] && function_exists($this->options['onRemove']) ? $this->options['onRemove'](@$arguments[0], @$arguments[1]) : null;
-	}
+  {
+    $arguments = func_get_args();
+    return $this->options['onRemove'] && function_exists($this->options['onRemove']) ? $this->options['onRemove'](@$arguments[0], @$arguments[1]) : null;
+  }
 }
