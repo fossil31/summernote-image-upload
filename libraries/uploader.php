@@ -240,7 +240,7 @@ class Uploader {
                     
                     $files[] = $this->options['uploadDir'] . $metas['old_name'];
 					$metas['file'] = $this->options['uploadDir'] . $metas['old_name'];
-					$metas['name'] = $metas['old_name'];
+					//$metas['name'] = $metas['old_name'];
                     $this->data['data']['metas'][] = $metas;   
                 }
             }
