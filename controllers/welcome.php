@@ -89,12 +89,13 @@ class Welcome extends CI_Controller {
 	{
 		include('./application/libraries/uploader.php');
 		$uploader = new Uploader();
+		$upload_path = './uploads/images/';
 		$data = $uploader->upload($_FILES['file'], array(
 			'limit' => 4,
 			'maxSize' => 9999,
 			'extensions' => array('txt', 'png', 'jpg'),
 			'required' => false,
-			'uploadDir' => './uploads/images/',
+			'uploadDir' => $upload_path,
 			'prefix' => 'prefix-',
 			'title' => array('auto', 30),
 			'removeFiles' => true,
@@ -110,7 +111,7 @@ class Welcome extends CI_Controller {
 		);
 		if ($data['isComplete'])
 		{
-			$result = array('status' => 1, 'image' => '.'.$data['data']['files'][0]);
+			$result = array('status' => 1, 'image' => '.'.$upload_path.$data['data']['metas'][0]['name']);
 		}
 
 		if ($data['hasErrors'])
@@ -118,7 +119,7 @@ class Welcome extends CI_Controller {
 			$result = array('status' => 1, 'image' => '');
 		}
 		echo json_encode($result);
-	}
+	}	
 
 }
 
