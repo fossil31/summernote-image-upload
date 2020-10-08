@@ -14,7 +14,7 @@ class Welcome extends CI_Controller {
 
 	public function db($param = 1, $array_data)
 	{
-		$this->load->model('test_model', 'test');
+		$this->load->model('summer_model', 'test');
 		$this->test->add($param, $array_data);
 		if ($param == 1)
 		{
