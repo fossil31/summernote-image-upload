@@ -69,6 +69,7 @@ class Welcome extends CI_Controller {
 		if (is_file($file))
 		{
 			unlink($file);
+			$this->deleteImageDB($file_name);
 			if (is_file($file))
 			{
 				$result = array('status' => 0, 'text' => 'ลบรูปภาพไม่ผ่าน', 'title' => 'Warning', 'type' => 'warning');
@@ -92,11 +93,11 @@ class Welcome extends CI_Controller {
 		$upload_path = './uploads/images/';
 		$data = $uploader->upload($_FILES['file'], array(
 			'limit' => 4,
-			'maxSize' => 9999,
+			'maxSize' => 99999,
 			'extensions' => array('png', 'jpg', 'jpeg', 'jpe', 'jfif', 'gif', 'tiff', 'tif', 'raw', 'img'),
 			'required' => false,
 			'uploadDir' => $upload_path,
-			'prefix' => 'prefix-',
+			'prefix' => '',
 			'title' => array('auto', 30),
 			'removeFiles' => true,
 			'replace' => true,
@@ -111,6 +112,9 @@ class Welcome extends CI_Controller {
 		);
 		if ($data['isComplete'])
 		{
+			$array_data = $data['data']['metas'][0];
+			$array_data['upload_path'] = $upload_path;
+			$this->uploadToDB($array_data);
 			$result = array('status' => 1, 'image' => '.'.$upload_path.$data['data']['metas'][0]['name']);
 		}
 
@@ -120,7 +124,17 @@ class Welcome extends CI_Controller {
 		}
 		echo json_encode($result);
 	}	
+	private function uploadToDB($array_data)
+	{
+		$this->load->model('test_model', 'test');
+		$this->test->uploadToDB($array_data);
+	}
 
+	private function deleteImageDB($file_name)
+	{
+		$this->load->model('test_model', 'test');
+		$this->test->deleteImageDB($file_name);
+	}
 }
 
 /* End of file welcome.php */
