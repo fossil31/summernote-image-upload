@@ -64,8 +64,8 @@ class Welcome extends CI_Controller {
 
 	public function summernote_delete_image()
 	{
-		$file = $this->input->post('image', TRUE);
-		$file = str_replace('http://localhost/ci', '.', $file);
+		$file_name = basename($this->input->post('image', TRUE));
+		$file = './uploads/images/'.$file_name;
 		if (is_file($file))
 		{
 			unlink($file);
