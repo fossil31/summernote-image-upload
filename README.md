@@ -12,3 +12,4 @@ https://github.com/bcit-ci/CodeIgniter/archive/2.2.6.zip
 =================================================
 https://summernote.org/getting-started/
 =================================================
+copy folder summernote paste to `ci/assets`
