@@ -46,5 +46,28 @@ class Summer_model extends CI_Model {
 			$this->session->set_flashdata('insert_message', 'Error!!! บันทึกข้อมูลไม่ผ่าน');
 		}
 	}
+	public function uploadToDB($array_data)
+	{
+		$this->db->insert('summernote_upload', array(
+				'file_name' => $array_data['name'],
+				'original_name' => $array_data['old_name'],
+				'file_size' => $array_data['size'],
+				'file_path' => $array_data['upload_path'],
+				'extension' => $array_data['extension'],
+				'created' => date('Y-m-d H:i')
+			)
+		);
+		return $this->db->affected_rows() > 0;
+	}
 
+	public function deleteImageDB($file_name)
+	{
+		$this->db->delete('summernote_upload', array('file_name' => basename($file_name)));
+		return $this->db->affected_rows() > 0;
+	}
+
+	private function __destruction()
+	{
+		$this->db->close();
+	}
 }
