@@ -93,7 +93,7 @@ class Welcome extends CI_Controller {
 		$data = $uploader->upload($_FILES['file'], array(
 			'limit' => 4,
 			'maxSize' => 9999,
-			'extensions' => array('txt', 'png', 'jpg'),
+			'extensions' => array('png', 'jpg', 'jpeg', 'jpe', 'jfif', 'gif', 'tiff', 'tif', 'raw', 'img'),
 			'required' => false,
 			'uploadDir' => $upload_path,
 			'prefix' => 'prefix-',
