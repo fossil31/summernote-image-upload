@@ -234,7 +234,9 @@ $(function() {
 			async: false,
 			success: function(res) {
 				if (res.status == 1) {
-					editor.summernote('insertImage', res.image);
+					//editor.summernote('insertImage', res.image);
+					let image = $('<img>').attr({'src': res.image, 'class': "img-rounded img-responsive"});
+					editor.summernote("insertNode", image[0]);					
 				} else {
 					alert('Upload รูปภาพไม่ผ่าน::');
 				}
